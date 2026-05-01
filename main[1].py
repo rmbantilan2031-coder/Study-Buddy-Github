@@ -1,55 +1,57 @@
 import string
 
-print("==================================================")
-print("                  STUDY BUDDY")
-print("==================================================")
+print("STUDY BUDDY")
 
+# Letters used for multiple choice options (A, B, C, etc.)
 letters = list(string.ascii_uppercase)
+
+# Stores all flashcards created by the teacher
 flashcards = []
 
+# Stores student info so it can be remembered when switching modes
+name = ""
+section = ""
 
-# MAIN MENU LOOP
-
-
+# Main program loop that keeps running until user exits
 while True:
 
-    print("\n==================================================")
-    print("CHOOSE MODE")
+    print("\nCHOOSE MODE")
     print("1 - Teacher")
     print("2 - Student")
     print("3 - Exit")
-    print("==================================================")
 
     choice = input("Enter choice: ").strip()
 
-    # ---------------- EXIT ----------------
+    # Exit the program
     if choice == "3":
-        print("\nGoodbye! 👋")
+        print("Program ended.")
         break
 
-    # ==================================================
-    #                    TEACHER MODE
-    # ==================================================
+    # Teacher mode for creating flashcards
     elif choice == "1":
 
-        print("\n================ TEACHER MODE ================")
+        print("\nTEACHER MODE")
 
-        print("Type 'switch' anytime to finish setup.\n")
+        # Choose type of flashcard system
+        mode = input("Select mode (normal, mc, mindmap): ").lower().strip()
 
-        mode = input("Select mode (normal, mc, mindmap): ").lower()
-
+        # Validate input
         if mode not in ["normal", "mc", "mindmap"]:
-            print("Invalid mode. Returning to menu.")
+            print("Invalid mode.")
             continue
 
+        print("Type 'switch' to stop adding flashcards")
+
+        # Loop for creating flashcards
         while True:
 
             question = input("Enter question/topic: ")
 
+            # Stop teacher input
             if question.lower() == "switch":
                 break
 
-            # NORMAL
+            # Normal flashcard (question and answer)
             if mode == "normal":
 
                 answer = input("Enter answer: ")
@@ -58,17 +60,18 @@ while True:
                     break
 
                 flashcards.append(["normal", question, answer])
-                print("Saved!\n")
+                print("Saved")
 
-            # MC
+            # Multiple choice flashcard
             elif mode == "mc":
 
                 options = []
                 option_letters = []
 
+                i = 0
+
                 print("Type 'done' to finish options")
 
-                i = 0
                 while True:
 
                     option = input("Option " + letters[i] + ": ")
@@ -80,12 +83,13 @@ while True:
                     option_letters.append(letters[i])
                     i += 1
 
-                answer = input("Correct letter: ").upper()
+                answer = input("Correct letter: ").upper().strip()
 
                 flashcards.append(["mc", question, options, option_letters, answer])
-                print("Saved!\n")
 
-            # MINDMAP
+                print("Saved")
+
+            # Mindmap flashcard (branches under a topic)
             elif mode == "mindmap":
 
                 branches = []
@@ -102,60 +106,61 @@ while True:
                     branches.append(branch)
 
                 flashcards.append(["mindmap", question, branches])
-                print("Saved!\n")
 
-        print("\nTeacher session ended. Returning to menu...")
+                print("Saved")
 
-    # ==================================================
-    #                    STUDENT MODE
-    # ==================================================
+        print("Teacher session ended.")
+
+    # Student mode for taking quiz
     elif choice == "2":
 
-        print("\n================ STUDENT MODE ================")
+        print("\nSTUDENT MODE")
 
-        name = input("Enter your name: ")
-        section = input("Enter your section: ")
+        # Store student info once so it is remembered when switching
+        if name == "":
+            name = input("Enter name: ")
 
-        print("\nWelcome,", name)
+        if section == "":
+            section = input("Enter section: ")
+
+        print("Welcome", name)
         print("Section:", section)
 
-        # ---------------- NO FLASHCARDS ----------------
+        # If no flashcards exist, stop
         if len(flashcards) == 0:
-            print("\n No flashcards available yet.")
-            print(" Ask teacher to create flashcards.")
-            print("Type 'switch' in menu and choose Teacher Mode.\n")
-
-            input("Press Enter to return to menu...")
+            print("No flashcards available.")
+            input("Press Enter to return.")
             continue
 
-        input("\nPress Enter to start quiz...")
+        input("Press Enter to start quiz")
 
         score = 0
         total = 0
 
-        print("\n================ QUIZ START ================\n")
+        print("\nQUIZ START")
 
-        # ---------------- QUIZ ----------------
+        # Loop through all flashcards
         for i in range(len(flashcards)):
 
             f = flashcards[i]
             qtype = f[0]
 
-            # NORMAL
+            # Normal question
             if qtype == "normal":
 
                 print("Q", i + 1, ":", f[1])
+
                 ans = input("Answer: ").lower()
 
                 total += 1
 
                 if ans == f[2].lower():
-                    print("Correct!\n")
+                    print("Correct")
                     score += 1
                 else:
-                    print("Wrong! Answer:", f[2], "\n")
+                    print("Wrong:", f[2])
 
-            # MC
+            # Multiple choice question
             elif qtype == "mc":
 
                 print("Q", i + 1, ":", f[1])
@@ -168,12 +173,12 @@ while True:
                 total += 1
 
                 if ans == f[4]:
-                    print("Correct!\n")
+                    print("Correct")
                     score += 1
                 else:
-                    print("Wrong! Answer:", f[4], "\n")
+                    print("Wrong:", f[4])
 
-            # MINDMAP
+            # Mindmap question
             elif qtype == "mindmap":
 
                 print("Topic", i + 1, ":", f[1])
@@ -185,18 +190,16 @@ while True:
                     ans = input("Branch " + str(j + 1) + ": ").lower()
 
                     if ans == f[2][j].lower():
-                        print("Correct!\n")
+                        print("Correct")
                         correct += 1
                     else:
-                        print("Wrong! Correct:", f[2][j], "\n")
+                        print("Wrong:", f[2][j])
 
                 total += len(f[2])
                 score += correct
 
-        # ---------------- FINAL SCORE ----------------
-        print("==================================================")
-        print("QUIZ COMPLETED")
-        print("SCORE:", score, "/", total)
-        print("==================================================")
+        # Final score display
+        print("\nRESULTS")
+        print("Score:", score, "/", total)
 
-        input("\nPress Enter to return to menu...")
+        input("Press Enter to return to menu")

@@ -121,9 +121,9 @@ while True:
 
         # ---------------- NO FLASHCARDS ----------------
         if len(flashcards) == 0:
-            print("\n❌ No flashcards available yet.")
-            print("👉 Ask teacher to create flashcards.")
-            print("👉 Type 'switch' in menu and choose Teacher Mode.\n")
+            print("\n No flashcards available yet.")
+            print(" Ask teacher to create flashcards.")
+            print("Type 'switch' in menu and choose Teacher Mode.\n")
 
             input("Press Enter to return to menu...")
             continue

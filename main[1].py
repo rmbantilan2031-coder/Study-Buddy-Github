@@ -1,6 +1,10 @@
 import string
 
+#Introductory words
+
 print("STUDY BUDDY")
+print("Made by Group 5 Aquamarine")
+print("Richard Mar G. Bantilan, Kuh P. Elizalde, and Xyz Eve Lumagod")
 
 # Letters used for multiple choice options (A, B, C, etc.)
 letters = list(string.ascii_uppercase)
